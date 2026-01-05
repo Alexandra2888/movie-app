@@ -1,33 +1,39 @@
 "use client";
 
 import { Film, LayoutGrid, Tv, Bookmark, User } from "lucide-react";
-import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navItems = [
-  { id: "home", icon: LayoutGrid, label: "Home" },
-  { id: "movies", icon: Film, label: "Movies" },
-  { id: "tv", icon: Tv, label: "TV Series" },
-  { id: "bookmarked", icon: Bookmark, label: "Bookmarked" },
+  { id: "home", icon: LayoutGrid, label: "Home", href: "/" },
+  { id: "movies", icon: Film, label: "Movies", href: "/movies" },
+  { id: "tv", icon: Tv, label: "TV Series", href: "/tv-series" },
+  {
+    id: "bookmarked",
+    icon: Bookmark,
+    label: "Bookmarked",
+    href: "/bookmarked",
+  },
 ];
 
 export default function Navigation() {
-  const [activeItem, setActiveItem] = useState("home");
+  const pathname = usePathname();
 
   return (
     <>
       {/* Desktop: Vertical Sidebar */}
       <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-[96px] bg-blue-950 flex-col items-center py-8 z-10">
-        <div className="mb-16">
+        <Link href="/" className="mb-16">
           <Film className="w-8 h-8 text-red-500" />
-        </div>
+        </Link>
         <nav className="flex flex-col gap-10">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = activeItem === item.id;
+            const isActive = pathname === item.href;
             return (
-              <button
+              <Link
                 key={item.id}
-                onClick={() => setActiveItem(item.id)}
+                href={item.href}
                 className="relative group flex items-center justify-center w-full"
                 aria-label={item.label}
               >
@@ -42,7 +48,7 @@ export default function Navigation() {
                     isActive ? "text-white" : "text-blue-500"
                   } group-hover:text-white`}
                 />
-              </button>
+              </Link>
             );
           })}
         </nav>
@@ -51,15 +57,17 @@ export default function Navigation() {
       {/* Tablet/Mobile: Horizontal Top Bar */}
       <header className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-blue-950 flex items-center justify-between px-4 md:px-6 z-10">
         <div className="flex items-center gap-4 md:gap-6">
-          <Film className="w-6 h-6 md:w-8 md:h-8 text-red-500 flex-shrink-0" />
+          <Link href="/">
+            <Film className="w-6 h-6 md:w-8 md:h-8 text-red-500 flex-shrink-0" />
+          </Link>
           <nav className="flex items-center gap-4 md:gap-8">
             {navItems.map((item) => {
               const Icon = item.icon;
-              const isActive = activeItem === item.id;
+              const isActive = pathname === item.href;
               return (
-                <button
+                <Link
                   key={item.id}
-                  onClick={() => setActiveItem(item.id)}
+                  href={item.href}
                   className="relative group flex items-center justify-center"
                   aria-label={item.label}
                 >
@@ -74,7 +82,7 @@ export default function Navigation() {
                       style={{ backgroundColor: "var(--ds-purple)" }}
                     />
                   )}
-                </button>
+                </Link>
               );
             })}
           </nav>

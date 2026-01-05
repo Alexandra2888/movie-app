@@ -36,7 +36,7 @@ export default function MovieCard({
             className="object-cover transition-transform group-hover:scale-105"
             sizes="(max-width: 768px) 240px, 470px"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
           {/* Hover overlay with play button */}
           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20">
             <div className="flex items-center gap-2 bg-white/25 backdrop-blur-sm rounded-full px-4 py-2 md:px-6 md:py-3">

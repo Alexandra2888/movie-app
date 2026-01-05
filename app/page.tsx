@@ -1,92 +1,11 @@
 import Navigation from "@/components/Navigation";
 import SearchBar from "@/components/SearchBar";
 import MovieCard from "@/components/MovieCard";
+import { getTrendingContent, allContent } from "@/lib/data";
+import Link from "next/link";
 
-const trendingMovies = [
-  {
-    id: 1,
-    title: "Beyond Earth",
-    year: 2019,
-    category: "Movie" as const,
-    rating: "PG",
-    thumbnail: "/thumbnails/beyond-earth.jpg",
-  },
-  {
-    id: 2,
-    title: "Bottom Gear",
-    year: 2021,
-    category: "Movie" as const,
-    rating: "PG",
-    thumbnail: "/thumbnails/bottom-gear.jpg",
-  },
-  {
-    id: 3,
-    title: "Undiscovered Cities",
-    year: 2019,
-    category: "Movie" as const,
-    rating: "E",
-    thumbnail: "/thumbnails/undiscovered-cities.jpg",
-  },
-];
-
-const recommendedMovies = [
-  {
-    id: 4,
-    title: "The Great Lands",
-    year: 2019,
-    category: "Movie" as const,
-    rating: "PG",
-    thumbnail: "/thumbnails/the-great-lands.jpg",
-  },
-  {
-    id: 5,
-    title: "The Diary",
-    year: 2019,
-    category: "TV Series" as const,
-    rating: "PG",
-    thumbnail: "/thumbnails/the-diary.jpg",
-  },
-  {
-    id: 6,
-    title: "Earth's Untouched",
-    year: 2017,
-    category: "Movie" as const,
-    rating: "18+",
-    thumbnail: "/thumbnails/earths-untouched.jpg",
-  },
-  {
-    id: 7,
-    title: "No Land Beyond",
-    year: 2019,
-    category: "Movie" as const,
-    rating: "PG",
-    thumbnail: "/thumbnails/no-land-beyond.jpg",
-  },
-  {
-    id: 8,
-    title: "Autosport The Series",
-    year: 2016,
-    category: "TV Series" as const,
-    rating: "PG",
-    thumbnail: "/thumbnails/autosport.jpg",
-  },
-  {
-    id: 9,
-    title: "Same Answer II",
-    year: 2017,
-    category: "Movie" as const,
-    rating: "E",
-    thumbnail: "/thumbnails/same-answer-ii.jpg",
-  },
-  {
-    id: 10,
-    title: "Below Echo",
-    year: 2016,
-    category: "TV Series" as const,
-    rating: "PG",
-    thumbnail: "/thumbnails/below-echo.jpg",
-  },
-];
+const trendingMovies = getTrendingContent();
+const recommendedMovies = allContent.filter((item) => !item.isTrending);
 
 export default function Home() {
   return (
@@ -99,16 +18,27 @@ export default function Home() {
         </div>
 
         <section className="mb-6 md:mb-8 lg:mb-10">
-          <h2 className="text-preset-2-light text-white mb-3 md:mb-4 lg:mb-6">
-            Trending
-          </h2>
+          <div className="flex items-center justify-between mb-3 md:mb-4 lg:mb-6">
+            <h2 className="text-preset-2-light text-white">Trending</h2>
+            <Link
+              href="/trending"
+              className="text-preset-4 text-white/75 hover:text-white transition-colors"
+            >
+              See all
+            </Link>
+          </div>
           <div className="flex gap-3 md:gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
             {trendingMovies.map((movie) => (
-              <div
-                key={movie.id}
-                className="flex-shrink-0 w-[240px] md:w-[470px]"
-              >
-                <MovieCard {...movie} variant="horizontal" />
+              <div key={movie.id} className="shrink-0 w-[240px] md:w-[470px]">
+                <MovieCard
+                  title={movie.title}
+                  year={movie.year}
+                  category={movie.category}
+                  rating={movie.rating}
+                  thumbnail={movie.thumbnail}
+                  isBookmarked={movie.isBookmarked}
+                  variant="horizontal"
+                />
               </div>
             ))}
           </div>
@@ -120,7 +50,15 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
             {recommendedMovies.map((movie) => (
-              <MovieCard key={movie.id} {...movie} />
+              <MovieCard
+                key={movie.id}
+                title={movie.title}
+                year={movie.year}
+                category={movie.category}
+                rating={movie.rating}
+                thumbnail={movie.thumbnail}
+                isBookmarked={movie.isBookmarked}
+              />
             ))}
           </div>
         </section>
