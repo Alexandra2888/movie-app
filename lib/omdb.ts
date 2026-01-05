@@ -45,7 +45,8 @@ export async function searchMovies(
     ...(type ? { type } : {}),
   });
 
-  const response = await fetch(`/api/movies?${params.toString()}`);
+  const url = `/api/movies?${params.toString()}`;
+  const response = await fetch(url);
 
   if (!response.ok) {
     const error = await response

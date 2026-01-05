@@ -2,7 +2,7 @@
 
 import { Bookmark, Play } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface MovieCardProps {
   title: string;
@@ -12,6 +12,24 @@ interface MovieCardProps {
   thumbnail: string;
   isBookmarked?: boolean;
   variant?: "vertical" | "horizontal";
+}
+
+const PLACEHOLDER_IMAGE =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450'%3E%3Crect fill='%231e3a8a' width='300' height='450'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='Arial' font-size='16'%3ENo Image%3C/text%3E%3C/svg%3E";
+
+function getImageSrc(thumbnail: string): string {
+  if (!thumbnail || thumbnail === "N/A") {
+    return PLACEHOLDER_IMAGE;
+  }
+  // If it's a local thumbnail path that likely doesn't exist, use placeholder
+  if (thumbnail.startsWith("/thumbnails/")) {
+    return PLACEHOLDER_IMAGE;
+  }
+  return thumbnail;
+}
+
+function isExternalImage(src: string): boolean {
+  return src.startsWith("http://") || src.startsWith("https://");
 }
 
 export default function MovieCard({
@@ -24,17 +42,42 @@ export default function MovieCard({
   variant = "vertical",
 }: MovieCardProps) {
   const [bookmarked, setBookmarked] = useState(isBookmarked);
+  const [imageSrc, setImageSrc] = useState(() => getImageSrc(thumbnail));
+  const [hasError, setHasError] = useState(false);
+
+  // Update image source when thumbnail changes and validate external images
+  useEffect(() => {
+    const newSrc = getImageSrc(thumbnail);
+    setImageSrc(newSrc);
+    setHasError(false);
+
+    // Pre-validate external images
+    if (isExternalImage(newSrc)) {
+      const img = new window.Image();
+      img.onerror = () => {
+        setHasError(true);
+        setImageSrc(PLACEHOLDER_IMAGE);
+      };
+      img.onload = () => {
+        setHasError(false);
+      };
+      img.src = newSrc;
+    }
+  }, [thumbnail]);
 
   if (variant === "horizontal") {
     return (
       <div className="relative group cursor-pointer">
         <div className="relative w-full h-[140px] md:h-[230px] rounded-lg overflow-hidden">
           <Image
-            src={thumbnail}
+            src={imageSrc}
             alt={title}
             fill
             className="object-cover transition-transform group-hover:scale-105"
             sizes="(max-width: 768px) 240px, 470px"
+            unoptimized={
+              isExternalImage(imageSrc) || imageSrc.startsWith("data:")
+            }
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
           {/* Hover overlay with play button */}
@@ -77,13 +120,16 @@ export default function MovieCard({
 
   return (
     <div className="relative group cursor-pointer">
-      <div className="relative w-full aspect-[2/3] rounded-lg overflow-hidden mb-2">
+      <div className="relative w-full aspect-2/3 rounded-lg overflow-hidden mb-2">
         <Image
-          src={thumbnail}
+          src={imageSrc}
           alt={title}
           fill
           className="object-cover"
           sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          unoptimized={
+            isExternalImage(imageSrc) || imageSrc.startsWith("data:")
+          }
         />
         <button
           onClick={(e) => {
