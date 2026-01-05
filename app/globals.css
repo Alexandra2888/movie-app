@@ -53,6 +53,7 @@
   --color-blue-900: var(--ds-blue-900);
   --color-blue-500: var(--ds-blue-500);
   --color-red-500: var(--ds-red-500);
+  --color-purple: var(--ds-purple);
   
   /* Design System Spacing */
   --spacing-0: var(--ds-spacing-0);
@@ -107,6 +108,7 @@
   --ds-blue-900: #161d2f;
   --ds-blue-500: #5a698f;
   --ds-red-500: #fc4747;
+  --ds-purple: #a445ed;
   
   /* Design System Spacing */
   --ds-spacing-0: 0px;
@@ -250,6 +252,15 @@
 }
 
 @layer utilities {
+  /* Scrollbar hide utility */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
   /* Typography Utilities - Desktop */
   .text-preset-1 {
     font-family: var(--ds-text-1-font-family);
