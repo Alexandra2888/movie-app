@@ -46,8 +46,9 @@ export default function TrendingPage() {
       <main
         className="flex-1 lg:ml-24 pt-20 lg:pt-0 px-4 md:px-6 lg:px-10 py-6 lg:py-8 overflow-y-auto"
         suppressHydrationWarning
+        data-testid="trending-page"
       >
-        <h1 className="text-preset-1 text-white mb-4 md:mb-6 lg:mb-8">
+        <h1 className="text-preset-1 text-white mb-4 md:mb-6 lg:mb-8" data-testid="page-title">
           All Trending Content
         </h1>
         <div className="mb-6 md:mb-8 lg:mb-10">
@@ -61,13 +62,13 @@ export default function TrendingPage() {
             isLoading={isSearching}
           />
         ) : (
-          <section>
+          <section data-testid="trending-content-section">
             {isLoading ? (
-              <div className="flex items-center justify-center py-12">
+              <div className="flex items-center justify-center py-12" data-testid="trending-content-loading">
                 <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin" />
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8" data-testid="trending-content-grid">
                 {trendingContent.map((item) => (
                   <MovieCard
                     key={item.imdbID}

@@ -111,7 +111,7 @@ export default function MovieCard({
 
   if (variant === "horizontal") {
     return (
-      <div className="relative group cursor-pointer">
+      <div className="relative group cursor-pointer" data-testid={`movie-card-${imdbID || title}`}>
         <div className="relative w-full h-[140px] md:h-[230px] rounded-lg overflow-hidden">
           <Image
             src={imageSrc}
@@ -128,6 +128,7 @@ export default function MovieCard({
           <div
             className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20 cursor-pointer"
             onClick={handlePlayClick}
+            data-testid={`play-btn-${imdbID || title}`}
           >
             <div className="flex items-center gap-2 bg-white/25 backdrop-blur-sm rounded-full px-4 py-2 md:px-6 md:py-3">
               <Play className="w-4 h-4 md:w-5 md:h-5 text-white fill-white" />
@@ -138,6 +139,7 @@ export default function MovieCard({
             onClick={handleBookmarkClick}
             className="absolute top-2 right-2 md:top-4 md:right-4 w-8 h-8 rounded-full bg-blue-900/50 hover:bg-white/20 flex items-center justify-center transition-colors z-30"
             aria-label={bookmarked ? "Remove bookmark" : "Add bookmark"}
+            data-testid={`bookmark-btn-${imdbID || title}`}
           >
             <Bookmark
               className={`w-4 h-4 ${
@@ -153,7 +155,7 @@ export default function MovieCard({
               <span>•</span>
               <span>{rating}</span>
             </div>
-            <h3 className="text-preset-3 md:text-preset-2-medium text-white">
+            <h3 className="text-preset-3 md:text-preset-2-medium text-white" data-testid={`movie-title-${imdbID || title}`}>
               {title}
             </h3>
           </div>
@@ -163,7 +165,7 @@ export default function MovieCard({
   }
 
   return (
-    <div className="relative group cursor-pointer">
+    <div className="relative group cursor-pointer" data-testid={`movie-card-${imdbID || title}`}>
       <div className="relative w-full aspect-2/3 rounded-lg overflow-hidden mb-2">
         <Image
           src={imageSrc}
@@ -179,6 +181,7 @@ export default function MovieCard({
           onClick={handleBookmarkClick}
           className="absolute top-2 right-2 w-6 h-6 md:w-8 md:h-8 rounded-full bg-blue-900/50 hover:bg-white/20 flex items-center justify-center transition-colors z-10"
           aria-label={bookmarked ? "Remove bookmark" : "Add bookmark"}
+          data-testid={`bookmark-btn-${imdbID || title}`}
         >
           <Bookmark
             className={`w-3 h-3 md:w-4 md:h-4 ${
@@ -194,7 +197,7 @@ export default function MovieCard({
         <span>•</span>
         <span>{rating}</span>
       </div>
-      <h3 className="text-preset-4 md:text-preset-3 text-white">{title}</h3>
+      <h3 className="text-preset-4 md:text-preset-3 text-white" data-testid={`movie-title-${imdbID || title}`}>{title}</h3>
     </div>
   );
 }

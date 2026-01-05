@@ -23,7 +23,7 @@ export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
   }, [debouncedQuery]);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full" data-testid="search-bar">
       <Search className="absolute left-0 md:left-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white" />
       <input
         type="text"
@@ -31,9 +31,10 @@ export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         className="w-full bg-transparent border-b border-blue-500 pb-3 md:pb-4 pl-8 md:pl-12 pr-4 text-preset-4 md:text-preset-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white transition-colors"
+        data-testid="search-input"
       />
       {isLoading && (
-        <div className="absolute right-4 top-1/2 -translate-y-1/2">
+        <div className="absolute right-4 top-1/2 -translate-y-1/2" data-testid="search-loading">
           <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
         </div>
       )}

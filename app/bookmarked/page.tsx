@@ -61,8 +61,9 @@ export default function BookmarkedPage() {
       <main
         className="flex-1 lg:ml-24 pt-20 lg:pt-0 px-4 md:px-6 lg:px-10 py-6 lg:py-8 overflow-y-auto"
         suppressHydrationWarning
+        data-testid="bookmarked-page"
       >
-        <h1 className="text-preset-1 text-white mb-4 md:mb-6 lg:mb-8">
+        <h1 className="text-preset-1 text-white mb-4 md:mb-6 lg:mb-8" data-testid="page-title">
           Bookmarked
         </h1>
         <div className="mb-6 md:mb-8 lg:mb-10">
@@ -76,9 +77,9 @@ export default function BookmarkedPage() {
             isLoading={isSearching}
           />
         ) : (
-          <section>
+          <section data-testid="bookmarked-content-section">
             {bookmarkedContent.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6" data-testid="bookmarked-movies">
                 {bookmarkedContent.map((item) => (
                   <MovieCard
                     key={item.imdbID}
@@ -98,7 +99,7 @@ export default function BookmarkedPage() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-20">
+              <div className="text-center py-20" data-testid="bookmarked-empty">
                 <p className="text-preset-3 text-white/75">
                   No bookmarked content yet
                 </p>

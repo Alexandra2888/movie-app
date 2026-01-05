@@ -16,7 +16,7 @@ export default function SearchResults({
 }: SearchResultsProps) {
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-12">
+      <div className="flex items-center justify-center py-12" data-testid="search-results-loading">
         <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin" />
       </div>
     );
@@ -28,7 +28,7 @@ export default function SearchResults({
 
   if (results.length === 0) {
     return (
-      <div className="text-center py-12">
+      <div className="text-center py-12" data-testid="search-results-empty">
         <p className="text-preset-3 text-white/75">
           No results found for &quot;{query}&quot;
         </p>
@@ -37,12 +37,12 @@ export default function SearchResults({
   }
 
   return (
-    <section>
-      <h2 className="text-preset-2-light text-white mb-3 md:mb-4 lg:mb-6">
+    <section data-testid="search-results">
+      <h2 className="text-preset-2-light text-white mb-3 md:mb-4 lg:mb-6" data-testid="search-results-heading">
         Found {results.length} result{results.length !== 1 ? "s" : ""} for
         &quot;{query}&quot;
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6" data-testid="search-results-grid">
         {results.map((movie) => (
           <MovieCard
             key={movie.imdbID}

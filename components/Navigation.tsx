@@ -23,7 +23,7 @@ export default function Navigation() {
     <>
       {/* Desktop: Vertical Sidebar */}
       <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-[96px] bg-blue-950 flex-col items-center py-8 z-10 overflow-hidden">
-        <Link href="/" className="mb-16">
+        <Link href="/" className="mb-16" data-testid="nav-logo">
           <Film className="w-8 h-8 text-red-500" />
         </Link>
         <nav className="flex flex-col gap-10">
@@ -36,6 +36,7 @@ export default function Navigation() {
                 href={item.href}
                 className="relative group flex items-center justify-center w-full"
                 aria-label={item.label}
+                data-testid={`nav-${item.id}`}
               >
                 {isActive && (
                   <div
@@ -57,8 +58,8 @@ export default function Navigation() {
       {/* Tablet/Mobile: Horizontal Top Bar */}
       <header className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-blue-950 flex items-center justify-between px-4 md:px-6 z-10">
         <div className="flex items-center gap-4 md:gap-6">
-          <Link href="/">
-            <Film className="w-6 h-6 md:w-8 md:h-8 text-red-500 flex-shrink-0" />
+          <Link href="/" data-testid="nav-logo-mobile">
+            <Film className="w-6 h-6 md:w-8 md:h-8 text-red-500 shrink-0" />
           </Link>
           <nav className="flex items-center gap-4 md:gap-8">
             {navItems.map((item) => {
@@ -70,6 +71,7 @@ export default function Navigation() {
                   href={item.href}
                   className="relative group flex items-center justify-center"
                   aria-label={item.label}
+                  data-testid={`nav-${item.id}-mobile`}
                 >
                   <Icon
                     className={`w-4 h-4 md:w-5 md:h-5 transition-colors ${
@@ -90,6 +92,7 @@ export default function Navigation() {
         <button
           className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white flex items-center justify-center"
           aria-label="User profile"
+          data-testid="user-profile-btn"
         >
           <User className="w-4 h-4 md:w-5 md:h-5 text-white" />
         </button>
