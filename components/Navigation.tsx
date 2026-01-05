@@ -22,7 +22,7 @@ export default function Navigation() {
   return (
     <>
       {/* Desktop: Vertical Sidebar */}
-      <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-[96px] bg-blue-950 flex-col items-center py-8 z-10">
+      <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-[96px] bg-blue-950 flex-col items-center py-8 z-10 overflow-hidden">
         <Link href="/" className="mb-16">
           <Film className="w-8 h-8 text-red-500" />
         </Link>

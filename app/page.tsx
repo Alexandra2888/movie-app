@@ -47,10 +47,10 @@ export default function Home() {
   const showSearchResults = searchQuery.trim().length > 0;
 
   return (
-    <div className="flex min-h-screen bg-blue-950">
+    <div className="flex h-screen bg-blue-950 overflow-hidden">
       <Navigation />
       <main
-        className="flex-1 lg:ml-24 pt-20 lg:pt-0 px-4 md:px-6 lg:px-10 py-4 md:py-6 lg:py-10"
+        className="flex-1 lg:ml-24 pt-20 lg:pt-0 px-4 md:px-6 lg:px-10 py-6 lg:py-8 overflow-y-auto"
         suppressHydrationWarning
       >
         <h1 className="text-preset-1 text-white mb-4 md:mb-6 lg:mb-8">Home</h1>
