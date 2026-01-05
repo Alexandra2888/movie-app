@@ -1,26 +1,344 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-outfit: var(--font-outfit);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  
+  /* Design System Colors */
+  --color-white: var(--ds-white);
+  --color-black: var(--ds-black);
+  --color-blue-950: var(--ds-blue-950);
+  --color-blue-900: var(--ds-blue-900);
+  --color-blue-500: var(--ds-blue-500);
+  --color-red-500: var(--ds-red-500);
+  
+  /* Design System Spacing */
+  --spacing-0: var(--ds-spacing-0);
+  --spacing-100: var(--ds-spacing-100);
+  --spacing-200: var(--ds-spacing-200);
+  --spacing-300: var(--ds-spacing-300);
+  --spacing-400: var(--ds-spacing-400);
+  --spacing-500: var(--ds-spacing-500);
+  --spacing-700: var(--ds-spacing-700);
+  --spacing-900: var(--ds-spacing-900);
+  --spacing-1000: var(--ds-spacing-1000);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  
+  /* Design System Colors */
+  --ds-white: #ffffff;
+  --ds-black: #000000;
+  --ds-blue-950: #10141e;
+  --ds-blue-900: #161d2f;
+  --ds-blue-500: #5a698f;
+  --ds-red-500: #fc4747;
+  
+  /* Design System Spacing */
+  --ds-spacing-0: 0px;
+  --ds-spacing-100: 8px;
+  --ds-spacing-200: 16px;
+  --ds-spacing-300: 24px;
+  --ds-spacing-400: 32px;
+  --ds-spacing-500: 40px;
+  --ds-spacing-700: 56px;
+  --ds-spacing-900: 72px;
+  --ds-spacing-1000: 80px;
+  
+  /* Design System Typography - Desktop */
+  /* Text Preset 1 - Outfit Light */
+  --ds-text-1-font-family: var(--font-outfit);
+  --ds-text-1-font-weight: 300;
+  --ds-text-1-font-size: 32px;
+  --ds-text-1-line-height: 125%;
+  --ds-text-1-letter-spacing: -0.5px;
+  
+  /* Text Preset 2 (Medium) - Outfit Medium */
+  --ds-text-2-medium-font-family: var(--font-outfit);
+  --ds-text-2-medium-font-weight: 500;
+  --ds-text-2-medium-font-size: 24px;
+  --ds-text-2-medium-line-height: 125%;
+  --ds-text-2-medium-letter-spacing: 0px;
+  
+  /* Text Preset 2 (Light) - Outfit Light */
+  --ds-text-2-light-font-family: var(--font-outfit);
+  --ds-text-2-light-font-weight: 300;
+  --ds-text-2-light-font-size: 24px;
+  --ds-text-2-light-line-height: 125%;
+  --ds-text-2-light-letter-spacing: 0px;
+  
+  /* Text Preset 3 - Outfit Medium */
+  --ds-text-3-font-family: var(--font-outfit);
+  --ds-text-3-font-weight: 500;
+  --ds-text-3-font-size: 18px;
+  --ds-text-3-line-height: 125%;
+  --ds-text-3-letter-spacing: 0px;
+  
+  /* Text Preset 4 - Outfit Light */
+  --ds-text-4-font-family: var(--font-outfit);
+  --ds-text-4-font-weight: 300;
+  --ds-text-4-font-size: 15px;
+  --ds-text-4-line-height: 125%;
+  --ds-text-4-letter-spacing: 0px;
+  
+  /* Text Preset 5 - Outfit Light */
+  --ds-text-5-font-family: var(--font-outfit);
+  --ds-text-5-font-weight: 300;
+  --ds-text-5-font-size: 13px;
+  --ds-text-5-line-height: 125%;
+  --ds-text-5-letter-spacing: 0px;
+  
+  /* Design System Typography - Mobile */
+  /* Text Preset 1 (Mobile) - Outfit Light */
+  --ds-text-1-mobile-font-family: var(--font-outfit);
+  --ds-text-1-mobile-font-weight: 300;
+  --ds-text-1-mobile-font-size: 20px;
+  --ds-text-1-mobile-line-height: 125%;
+  --ds-text-1-mobile-letter-spacing: -0.3px;
+  
+  /* Text Preset 2 (Mobile) - Outfit Light */
+  --ds-text-2-mobile-font-family: var(--font-outfit);
+  --ds-text-2-mobile-font-weight: 300;
+  --ds-text-2-mobile-font-size: 16px;
+  --ds-text-2-mobile-line-height: 125%;
+  --ds-text-2-mobile-letter-spacing: 0px;
+  
+  /* Text Preset 3 (Mobile) - Outfit Medium */
+  --ds-text-3-mobile-font-family: var(--font-outfit);
+  --ds-text-3-mobile-font-weight: 500;
+  --ds-text-3-mobile-font-size: 15px;
+  --ds-text-3-mobile-line-height: 125%;
+  --ds-text-3-mobile-letter-spacing: 0px;
+  
+  /* Text Preset 4 (Mobile) - Outfit Medium */
+  --ds-text-4-mobile-font-family: var(--font-outfit);
+  --ds-text-4-mobile-font-weight: 500;
+  --ds-text-4-mobile-font-size: 14px;
+  --ds-text-4-mobile-line-height: 125%;
+  --ds-text-4-mobile-letter-spacing: 0px;
+  
+  /* Text Preset 5 (Mobile) - Outfit Light */
+  --ds-text-5-mobile-font-family: var(--font-outfit);
+  --ds-text-5-mobile-font-weight: 300;
+  --ds-text-5-mobile-font-size: 12px;
+  --ds-text-5-mobile-line-height: 125%;
+  --ds-text-5-mobile-letter-spacing: 0px;
+  
+  /* Text Preset 6 (Mobile) - Outfit Light */
+  --ds-text-6-mobile-font-family: var(--font-outfit);
+  --ds-text-6-mobile-font-weight: 300;
+  --ds-text-6-mobile-font-size: 11px;
+  --ds-text-6-mobile-line-height: 125%;
+  --ds-text-6-mobile-letter-spacing: 0px;
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* Typography Utilities - Desktop */
+  .text-preset-1 {
+    font-family: var(--ds-text-1-font-family);
+    font-weight: var(--ds-text-1-font-weight);
+    font-size: var(--ds-text-1-font-size);
+    line-height: var(--ds-text-1-line-height);
+    letter-spacing: var(--ds-text-1-letter-spacing);
+  }
+  
+  .text-preset-2-medium {
+    font-family: var(--ds-text-2-medium-font-family);
+    font-weight: var(--ds-text-2-medium-font-weight);
+    font-size: var(--ds-text-2-medium-font-size);
+    line-height: var(--ds-text-2-medium-line-height);
+    letter-spacing: var(--ds-text-2-medium-letter-spacing);
+  }
+  
+  .text-preset-2-light {
+    font-family: var(--ds-text-2-light-font-family);
+    font-weight: var(--ds-text-2-light-font-weight);
+    font-size: var(--ds-text-2-light-font-size);
+    line-height: var(--ds-text-2-light-line-height);
+    letter-spacing: var(--ds-text-2-light-letter-spacing);
+  }
+  
+  .text-preset-3 {
+    font-family: var(--ds-text-3-font-family);
+    font-weight: var(--ds-text-3-font-weight);
+    font-size: var(--ds-text-3-font-size);
+    line-height: var(--ds-text-3-line-height);
+    letter-spacing: var(--ds-text-3-letter-spacing);
+  }
+  
+  .text-preset-4 {
+    font-family: var(--ds-text-4-font-family);
+    font-weight: var(--ds-text-4-font-weight);
+    font-size: var(--ds-text-4-font-size);
+    line-height: var(--ds-text-4-line-height);
+    letter-spacing: var(--ds-text-4-letter-spacing);
+  }
+  
+  .text-preset-5 {
+    font-family: var(--ds-text-5-font-family);
+    font-weight: var(--ds-text-5-font-weight);
+    font-size: var(--ds-text-5-font-size);
+    line-height: var(--ds-text-5-line-height);
+    letter-spacing: var(--ds-text-5-letter-spacing);
+  }
+  
+  /* Typography Utilities - Mobile */
+  @media (max-width: 768px) {
+    .text-preset-1 {
+      font-family: var(--ds-text-1-mobile-font-family);
+      font-weight: var(--ds-text-1-mobile-font-weight);
+      font-size: var(--ds-text-1-mobile-font-size);
+      line-height: var(--ds-text-1-mobile-line-height);
+      letter-spacing: var(--ds-text-1-mobile-letter-spacing);
+    }
+    
+    .text-preset-2-light {
+      font-family: var(--ds-text-2-mobile-font-family);
+      font-weight: var(--ds-text-2-mobile-font-weight);
+      font-size: var(--ds-text-2-mobile-font-size);
+      line-height: var(--ds-text-2-mobile-line-height);
+      letter-spacing: var(--ds-text-2-mobile-letter-spacing);
+    }
+    
+    .text-preset-3 {
+      font-family: var(--ds-text-3-mobile-font-family);
+      font-weight: var(--ds-text-3-mobile-font-weight);
+      font-size: var(--ds-text-3-mobile-font-size);
+      line-height: var(--ds-text-3-mobile-line-height);
+      letter-spacing: var(--ds-text-3-mobile-letter-spacing);
+    }
+    
+    .text-preset-4 {
+      font-family: var(--ds-text-4-mobile-font-family);
+      font-weight: var(--ds-text-4-mobile-font-weight);
+      font-size: var(--ds-text-4-mobile-font-size);
+      line-height: var(--ds-text-4-mobile-line-height);
+      letter-spacing: var(--ds-text-4-mobile-letter-spacing);
+    }
+    
+    .text-preset-5 {
+      font-family: var(--ds-text-5-mobile-font-family);
+      font-weight: var(--ds-text-5-mobile-font-weight);
+      font-size: var(--ds-text-5-mobile-font-size);
+      line-height: var(--ds-text-5-mobile-line-height);
+      letter-spacing: var(--ds-text-5-mobile-letter-spacing);
+    }
+  }
 }
