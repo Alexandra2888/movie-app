@@ -3,6 +3,8 @@
 import { Bookmark, Play } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { isBookmarked, toggleBookmark } from "@/lib/bookmarks";
+import type { OMDBMovie } from "@/lib/omdb";
 
 interface MovieCardProps {
   title: string;
@@ -10,8 +12,11 @@ interface MovieCardProps {
   category: "Movie" | "TV Series";
   rating: string;
   thumbnail: string;
+  imdbID?: string;
+  movieData?: OMDBMovie;
   isBookmarked?: boolean;
   variant?: "vertical" | "horizontal";
+  onPlay?: () => void;
 }
 
 const PLACEHOLDER_IMAGE =
@@ -38,12 +43,51 @@ export default function MovieCard({
   category,
   rating,
   thumbnail,
-  isBookmarked = false,
+  imdbID,
+  movieData,
+  isBookmarked: initialBookmarked,
   variant = "vertical",
+  onPlay,
 }: MovieCardProps) {
-  const [bookmarked, setBookmarked] = useState(isBookmarked);
+  const [bookmarked, setBookmarked] = useState(() =>
+    imdbID ? isBookmarked(imdbID) : initialBookmarked || false
+  );
   const [imageSrc, setImageSrc] = useState(() => getImageSrc(thumbnail));
   const [hasError, setHasError] = useState(false);
+
+  // Listen for bookmark changes from other components
+  useEffect(() => {
+    if (!imdbID) return;
+
+    const handleBookmarkChange = () => {
+      setBookmarked(isBookmarked(imdbID));
+    };
+
+    window.addEventListener("bookmarks-changed", handleBookmarkChange);
+    return () => {
+      window.removeEventListener("bookmarks-changed", handleBookmarkChange);
+    };
+  }, [imdbID]);
+
+  const handleBookmarkClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (movieData && imdbID) {
+      toggleBookmark(movieData);
+      setBookmarked(!bookmarked);
+    } else {
+      setBookmarked(!bookmarked);
+    }
+  };
+
+  const handlePlayClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onPlay) {
+      onPlay();
+    } else if (imdbID) {
+      // Default: open IMDb page
+      window.open(`https://www.imdb.com/title/${imdbID}`, "_blank");
+    }
+  };
 
   // Update image source when thumbnail changes and validate external images
   useEffect(() => {
@@ -81,17 +125,17 @@ export default function MovieCard({
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
           {/* Hover overlay with play button */}
-          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20">
+          <div
+            className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20 cursor-pointer"
+            onClick={handlePlayClick}
+          >
             <div className="flex items-center gap-2 bg-white/25 backdrop-blur-sm rounded-full px-4 py-2 md:px-6 md:py-3">
               <Play className="w-4 h-4 md:w-5 md:h-5 text-white fill-white" />
               <span className="text-preset-4 text-white font-medium">Play</span>
             </div>
           </div>
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setBookmarked(!bookmarked);
-            }}
+            onClick={handleBookmarkClick}
             className="absolute top-2 right-2 md:top-4 md:right-4 w-8 h-8 rounded-full bg-blue-900/50 hover:bg-white/20 flex items-center justify-center transition-colors z-30"
             aria-label={bookmarked ? "Remove bookmark" : "Add bookmark"}
           >
@@ -132,10 +176,7 @@ export default function MovieCard({
           }
         />
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setBookmarked(!bookmarked);
-          }}
+          onClick={handleBookmarkClick}
           className="absolute top-2 right-2 w-6 h-6 md:w-8 md:h-8 rounded-full bg-blue-900/50 hover:bg-white/20 flex items-center justify-center transition-colors z-10"
           aria-label={bookmarked ? "Remove bookmark" : "Add bookmark"}
         >

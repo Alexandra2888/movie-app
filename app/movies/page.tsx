@@ -80,6 +80,8 @@ export default function MoviesPage() {
                         ? movie.Poster
                         : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450'%3E%3Crect fill='%231e3a8a' width='300' height='450'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='Arial' font-size='16'%3ENo Image%3C/text%3E%3C/svg%3E"
                     }
+                    imdbID={movie.imdbID}
+                    movieData={movie}
                   />
                 ))}
               </div>

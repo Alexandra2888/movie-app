@@ -5,14 +5,29 @@ import SearchBar from "@/components/SearchBar";
 import MovieCard from "@/components/MovieCard";
 import SearchResults from "@/components/SearchResults";
 import { searchMovies, OMDBMovie } from "@/lib/omdb";
-import { useState, useCallback } from "react";
+import { getBookmarks } from "@/lib/bookmarks";
+import { useState, useCallback, useEffect } from "react";
 
 export default function BookmarkedPage() {
-  // For now, bookmarked is empty - can be enhanced with localStorage later
-  const bookmarkedContent: OMDBMovie[] = [];
+  const [bookmarkedContent, setBookmarkedContent] = useState<OMDBMovie[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<OMDBMovie[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+
+  // Load bookmarks from localStorage
+  useEffect(() => {
+    const loadBookmarks = () => {
+      setBookmarkedContent(getBookmarks());
+    };
+
+    loadBookmarks();
+
+    // Listen for bookmark changes
+    window.addEventListener("bookmarks-changed", loadBookmarks);
+    return () => {
+      window.removeEventListener("bookmarks-changed", loadBookmarks);
+    };
+  }, []);
 
   const handleSearch = useCallback(async (query: string) => {
     setSearchQuery(query);
@@ -76,6 +91,8 @@ export default function BookmarkedPage() {
                         ? item.Poster
                         : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450'%3E%3Crect fill='%231e3a8a' width='300' height='450'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='Arial' font-size='16'%3ENo Image%3C/text%3E%3C/svg%3E"
                     }
+                    imdbID={item.imdbID}
+                    movieData={item}
                     isBookmarked={true}
                   />
                 ))}
